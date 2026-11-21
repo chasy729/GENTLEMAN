@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GENTLEMAN | Элитный Барбершоп</title>
+    
+    <!-- Подключение премиальных шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ПЕРЕМЕННЫЕ И БАЗА --- */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --gold: #d4af37;
+            --gold-hover: #f3cf55;
+            --text-main: #e0e0e0;
+            --text-muted: #888888;
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: var(--font-head); font-weight: 700; letter-spacing: 1px; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- УТИЛИТЫ --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-padding { padding: 100px 0; }
+        .text-center { text-align: center; }
+        .gold-text { color: var(--gold); }
+        
+        .btn-gold {
+            display: inline-block;
+            padding: 16px 40px;
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-gold::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0%; height: 100%;
+            background: var(--gold);
+            z-index: -1;
+            transition: width 0.4s ease;
+        }
+
+        .btn-gold:hover { color: var(--bg-dark); }
+        .btn-gold:hover::before { width: 100%; }
+
+        /* --- НАВИГАЦИЯ --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 20px 0;
+        }
+
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { 
+            font-family: var(--font-head); 
+            font-size: 1.8rem; 
+            color: var(--gold); 
+            font-weight: 700; 
+            letter-spacing: 3px;
+        }
+
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-main); }
+        .nav-links a:hover { color: var(--gold); }
+
+        .burger { display: none; cursor: pointer; flex-direction: column; gap: 6px; }
+        .burger span { width: 30px; height: 2px; background: var(--gold); transition: 0.3s; }
+
+        /* --- HERO СЕКЦИЯ --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+        }
+
+        .hero::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.7), rgba(10,10,10,0.9));
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 800px; padding: 0 20px; }
+        
+        .hero h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            color: #fff;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        /* --- УСЛУГИ --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 50px 30px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .service-card h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
+        .price { font-size: 2rem; color: var(--gold); font-family: var(--font-head); margin-bottom: 20px; display: block; }
+        .service-card p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* --- МАСТЕРА --- */
+        .masters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .master-card { position: relative; overflow: hidden; group: master; }
+        .master-img { width: 100%; height: 450px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
+        .master-card:hover .master-img { filter: grayscale(0%); transform: scale(1.05); }
+        
+        .master-info {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+        }
+        
+        .master-info h3 { font-size: 1.5rem; color: #fff; margin-bottom: 5px; }
+        .master-spec { color: var(--gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- ФОРМА ЗАПИСИ --- */
+        .booking-section { background: var(--bg-card); }
+        
+        .form-box {
+            max-width: 600px; margin: 0 auto;
+            background: var(--bg-dark);
+            padding: 50px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .input-group { margin-bottom: 25px; }
+        
+        label { display: block; margin-bottom: 10px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); }
+        
+        input, select {
+            width: 100%; padding: 15px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus { border-color: var(--gold); }
+        select option { background: var(--bg-dark); color: #fff; }
+
+        /* --- КОНТАКТЫ И ФУТЕР --- */
+        footer {
+            background: #050505;
+            padding: 80px 0 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px; margin-bottom: 60px;
+        }
+
+        .footer-col h4 { color: var(--gold); font-family: var(--font-head); font-size: 1.5rem; margin-bottom: 25px; }
+        .footer-col p, .footer-col a { color: var(--text-muted); display: block; margin-bottom: 12px; font-size: 0.95rem; }
+        .footer-col a:hover { color: var(--gold); padding-left: 5px; }
+
+        .copyright { text-align: center; color: #444; font-size: 0.8rem; border-top: 1px solid #111; padding-top: 30px; }
+
+        /* --- АДАПТИВНОСТЬ --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .nav-links {
+                position: fixed; top: 70px; right: -100%;
+                width: 100%; height: calc(100vh - 70px);
+                background: var(--bg-dark);
+                flex-direction: column; justify-content: center; align-items: center;
+                transition: 0.4s;
+            }
+            .nav-links.active { right: 0; }
+            .burger { display: flex; }
+            .form-box { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигация -->
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="logo">GENTLEMAN.</a>
+            <div class="nav-links" id="navLinks">
+                <a href="#services">Услуги</a>
+                <a href="#masters">Мастера</a>
+                <a href="#contacts">Контакты</a>
+                <a href="#booking" style="color: var(--gold);">Записаться</a>
+            </div>
+            <div class="burger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Секция -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Твой стиль —<br>твоя визитная карточка</h1>
+            <p>Премиальный уход за собой в атмосфере настоящего мужского клуба. Традиции классического барберинга и современные техники.</p>
+            <a href="#booking" class="btn-gold">Записаться онлайн</a>
+        </div>
+    </section>
+
+    <!-- Услуги -->
+    <section id="services" class="section-padding container">
+        <h2 class="text-center" style="font-size: 3rem;">Наши <span class="gold-text">Услуги</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Мужская стрижка</h3>
+                <span class="price">2 500 ₽</span>
+                <p>Классические и модельные стрижки с учетом анатомии черепа и типа волос. Мытье головы и укладка включены.</p>
+            </div>
+            <div class="service-card">
+                <h3>Оформление бороды</h3>
+                <span class="price">1 500 ₽</span>
+                <p>Моделирование формы, коррекция опасной бритвой, распаривание горячими полотенцами и уход маслами.</p>
+            </div>
+            <div class="service-card">
+                <h3>Комплекс "Gentleman"</h3>
+                <span class="price">3 500 ₽</span>
+                <p>Стрижка + оформление бороды. Идеальное сочетание для тех, кто ценит свое время и безупречный вид.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Мастера -->
+    <section id="masters" class="section-padding container">
+        <h2 class="text-center" style="font-size: 3rem;">Топ <span class="gold-text">Барберы</span></h2>
+        <div class="masters-grid">
+            <div class="master-card">
+                <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Master 1" class="master-img">
+                <div class="master-info">
+                    <h3>Александр В.</h3>
+                    <span class="master-spec">Стаж 8 лет • Король фейдов</span>
+                </div>
+            </div>
+            <div class="master-card">
+                <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Master 2" class="master-img">
+                <div class="master-info">
+                    <h3>Дмитрий К.</h3>
+                    <span class="master-spec">Стаж 6 лет • Эксперт по бороде</span>
+                </div>
+            </div>
+            <div class="master-card">
+                <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Master 3" class="master-img">
+                <div class="master-info">
+                    <h3>Максим Р.</h3>
+                    <span class="master-spec">Стаж 10 лет • Основатель стиля</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма записи -->
+    <section id="booking" class="section-padding booking-section">
+        <div class="container">
+            <h2 class="text-center" style="font-size: 3rem; margin-bottom: 50px;">Онлайн <span class="gold-text">Запись</span></h2>
+            <div class="form-box">
+                <!-- ВНИМАНИЕ: Замени ТВОЙ_ID_ОТ_FORMSPREE на свой реальный ID -->
+                <form action="https://formspree.io/f/xbgoagey" method="POST">
+                    
+                    <!-- Скрытое поле для возврата на сайт после отправки -->
+                    <input type="hidden" name="_next" value="https://chasy729.github.io/my-portfolio/#booking">
+
+                    <div class="input-group">
+                        <label>Ваше имя</label>
+                        <input type="text" name="name" placeholder="Иван Иванов" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Телефон</label>
+                        <input type="tel" name="phone" placeholder="+7 (999) 000-00-00" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Выберите мастера</label>
+                        <select name="master" required>
+                            <option value="" disabled selected>Любой свободный мастер</option>
+                            <option value="Александр В.">Александр В.</option>
+                            <option value="Дмитрий К.">Дмитрий К.</option>
+                            <option value="Максим Р.">Максим Р.</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Желаемая дата и время</label>
+                        <input type="text" name="date" placeholder="Например: Завтра в 18:00" required>
+                    </div>
+
+                    <button type="submit" class="btn-gold" style="width: 100%; margin-top: 10px;">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты / Футер -->
+    <footer id="contacts">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>GENTLEMAN.</h4>
+                    <p>Элитный барбершоп для тех, кто не идет на компромиссы в вопросах стиля.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Контакты</h4>
+                    <p>📍 Москва, ул. Тверская, д. 15</p>
+                    <p>📞 +7 (495) 000-00-00</p>
+                    <p>✉️ info@gentleman-barber.ru</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Соцсети</h4>
+                    <a href="#">Instagram</a>
+                    <a href="#">Telegram канал</a>
+                    <a href="#">WhatsApp</a>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2026 GENTLEMAN Barbershop. All rights reserved. Designed by Chasy729.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Логика мобильного меню
+        function toggleMenu() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('active');
+        }
+
+        // Закрытие меню при клике на ссылку
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // Плавный скролл для якорей
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
